@@ -51,7 +51,7 @@ class mongodb (
     $package = $mongodb::params::package
   }
 
-  Class['mongodb'] -> Class['mongodb::config']
+  Package['mongodb-10gen'] -> Class['mongodb::config']
 
   $config_class = { 'mongodb::config' => $config_hash }
 

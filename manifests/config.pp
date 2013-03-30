@@ -1,5 +1,5 @@
 class mongodb::config(
-  $config_file        = $mongodb::params::config_file
+  $config_file        = $mongodb::params::config_file,
   $dbpath             = $mongodb::params::dbpath,            # /var/lib/mongodb
   $logpath            = $mongodb::params::logpath,           # /var/log/mongodb/mongodb.log
   $logappend          = $mongodb::params::logappend,         # true

@@ -35,32 +35,7 @@ class mongodb (
   $location        = '',
   $packagename     = undef,
   $servicename     = $mongodb::params::service,
-  $logpath         = '/var/log/mongodb/mongodb.log',
-  $logappend       = true,
-  $mongofork       = true,
-  $port            = '27017',
-  $dbpath          = '/var/lib/mongodb',
-  $nojournal       = undef,
-  $cpu             = undef,
-  $noauth          = undef,
-  $auth            = undef,
-  $verbose         = undef,
-  $objcheck        = undef,
-  $quota           = undef,
-  $oplog           = undef,
-  $nohints         = undef,
-  $nohttpinterface = undef,
-  $noscripting     = undef,
-  $notablescan     = undef,
-  $noprealloc      = undef,
-  $nssize          = undef,
-  $mms_token       = undef,
-  $mms_name        = undef,
-  $mms_interval    = undef,
-  $slave           = undef,
-  $only            = undef,
-  $master          = undef,
-  $source          = undef
+  $config_hash     = {}
 ) inherits mongodb::params {
 
   if $enable_10gen {
@@ -76,17 +51,15 @@ class mongodb (
     $package = $mongodb::params::package
   }
 
+  Class['mongodb'] -> Class['mongodb::config']
+
+  $config_class = { 'mongodb::config' => $config_hash }
+
+  create_resources( 'class', $config_class )
+
   package { 'mongodb-10gen':
     name   => $package,
     ensure => installed,
-  }
-
-  file { '/etc/mongodb.conf':
-    content => template('mongodb/mongodb.conf.erb'),
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    require => Package['mongodb-10gen'],
   }
 
   service { 'mongodb':

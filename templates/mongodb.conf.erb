@@ -18,25 +18,30 @@ logappend=<%= logappend %>
 
 port=<%= port %>
 
+<% if bind_ip -%>
+bind_ip=<%= bind_ip %>
+<% end -%>
+
 # Disables write-ahead journaling
-# nojournal = true
+nojournal=<%= nojournal %>
 
 # Enables periodic logging of CPU utilization and I/O wait
-#cpu = true
+cpu=<%= cpu %>
 
 # Turn on/off security.  Off is currently the default
-#noauth = true
-#auth = true
+noauth=<%= noauth %>
+auth=<%= auth %>
 
 # Verbose logging output.
-#verbose = true
+verbose=<%= verbose %>
 
 # Inspect all client data for validity on receipt (useful for
 # developing drivers)
-#objcheck = true
+objcheck=<%= objcheck %>
+noobjcheck=<%= noobjcheck %>
 
 # Enable db quota management
-#quota = true
+quota=<%= quota %>
 
 # Set oplogging level where n is
 #   0=off (default)
@@ -44,47 +49,45 @@ port=<%= port %>
 #   2=R
 #   3=both
 #   7=W+some reads
-#diaglog = 0
-
-# Ignore query hints
-#nohints = true
+diaglog=<%= diaglog %>
 
 # Disable the HTTP interface (Defaults to localhost:28017).
-#nohttpinterface = true
+nohttpinterface=<%= nohttpinterface %>
 
 # Turns off server-side scripting.  This will result in greatly limited
 # functionality
-#noscripting = true
+noscripting=<%= noscripting %>
 
 # Turns off table scans.  Any query that would do a table scan fails.
-#notablescan = true
+notablescan=<%= notablescan %>
 
 # Disable data file preallocation.
-#noprealloc = true
+noprealloc=<%= noprealloc %>
 
 # Specify .ns file size for new databases.
-# nssize = <size>
+nssize=<%= nssize %>
 
-# Accout token for Mongo monitoring server.
-#mms-token = <token>
-
-# Server name for Mongo monitoring server.
-#mms-name = <server-name>
-
-# Ping interval for Mongo monitoring server.
-#mms-interval = <seconds>
+### AUTHOR INFO: Removed MMS config part. Not needed any more.
 
 # Replication Options
 
+<% if master_slave -%>
 # in master/slave replicated mongo databases, specify here whether
 # this is a slave or master
-#slave = true
-#source = master.example.com
-# Slave only: specify a single database to replicate
-#only = master.example.com
-# or
-#master = true
-#source = slave.example.com
+master=<%= master %>
+slave=<%= slave %>
+source=<%= source %>
+only=<%= only %>
+slaveDelay=<%= slaveDelay %>
+autoresync=<%= autoresync %>
+<% end -%>
 
+<% if replica_set -%>
 # in replica set configuration, specify the name of the replica set
-# replSet = setname
+replSet=<%= replSet %>
+<%  if oplogSize -%>
+oplogSize=<%= oplogSize %>
+<% end -%>
+fastsync=<%= fastsync %>
+replIndexPrefetch=<%= replIndexPrefetch %>
+<% end -%>

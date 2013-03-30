@@ -18,7 +18,7 @@ logappend=<%= logappend %>
 
 port=<%= port %>
 
-<% if bind_ip -%>
+<% if @bind_ip -%>
 bind_ip=<%= bind_ip %>
 <% end -%>
 
@@ -71,7 +71,7 @@ nssize=<%= nssize %>
 
 # Replication Options
 
-<% if master_slave -%>
+<% if @master_slave -%>
 # in master/slave replicated mongo databases, specify here whether
 # this is a slave or master
 master=<%= master %>
@@ -82,10 +82,10 @@ slaveDelay=<%= slaveDelay %>
 autoresync=<%= autoresync %>
 <% end -%>
 
-<% if replica_set -%>
+<% if @replica_set -%>
 # in replica set configuration, specify the name of the replica set
 replSet=<%= replSet %>
-<%  if oplogSize -%>
+<%  if @oplogSize -%>
 oplogSize=<%= oplogSize %>
 <% end -%>
 fastsync=<%= fastsync %>

@@ -1,10 +1,10 @@
 define mongodb::replica_set(
-  $name = $title,
-  $config = undef
+  $repl_name = $title,
+  $repl_config = undef
 ) {
-  validate_hash($config)
+  validate_hash($repl_config)
 
-  if $config['_id'] == 0 {
+  if $repl_config['_id'] == 0 {
     exec { "initiate replica set":
       command => 'mongo --eval "rs.initiate()"',
       onlyif  => 'test `mongo --eval "rs.conf()" | grep "null"`',

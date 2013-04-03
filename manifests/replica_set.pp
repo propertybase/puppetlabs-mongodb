@@ -6,7 +6,7 @@ define mongodb::replica_set(
 
   if $config['_id'] == 0 {
     exec { "initiate replica set":
-      command => 'mongo --eval "rs.initiate()"'
+      command => 'mongo --eval "rs.initiate()"',
       onlyif  => 'test `mongo --eval "rs.conf()" | grep "null"`',
     }
   }

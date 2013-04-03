@@ -8,6 +8,14 @@ define mongodb::replica_set(
     exec { "initiate replica set":
       command => 'mongo --eval "rs.initiate()"',
       onlyif  => 'test `mongo --eval "rs.conf()" | grep "null"`',
+      before  => Notify['replica set initiated'],
     }
+
+    notify {'replica set initiated':
+      message => "Replica Set is initiated with rs.initiate() on ${$::hostname}"
+    }
+  }
+  else {
+    notify{"Replica Set will not be initiated on this host.":}
   }
 }

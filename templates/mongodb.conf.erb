@@ -32,6 +32,11 @@ cpu=<%= cpu %>
 noauth=<%= noauth %>
 auth=<%= auth %>
 
+# Set to true to modify MongoDB to use a smaller default data file size.
+# The smallfiles setting can lead mongod to create many files,
+# which may affect performance for larger databases.
+smallfiles=<%= smallfiles %>
+
 # Verbose logging output.
 verbose=<%= verbose %>
 

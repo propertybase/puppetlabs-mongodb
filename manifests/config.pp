@@ -9,6 +9,7 @@ class mongodb::config(
   $cpu                = $mongodb::params::cpu,               # false
   $noauth             = $mongodb::params::noauth,            # true
   $auth               = $mongodb::params::auth,              # false
+  $smallfiles         = $mongodb::params::smallfiles,        # false
   $verbose            = $mongodb::params::verbose,           # false
   $objcheck           = $mongodb::params::objcheck,          # true
   $noobjcheck         = $mongodb::params::noobjcheck,        # false

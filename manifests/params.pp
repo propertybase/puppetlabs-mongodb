@@ -36,6 +36,7 @@ class mongodb::params{
       $cpu                = false
       $noauth             = true
       $auth               = false
+      $smallfiles         = false
       $verbose            = false
       $objcheck           = true
       $noobjcheck         = false

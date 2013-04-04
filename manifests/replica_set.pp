@@ -17,10 +17,10 @@ define mongodb::replica_set(
   }
   else {
     exec { "add member to set":
-      command => "sudo /root/bin/mongo_helper/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base}:${mongo_port} ${my_repl_config['priority']}",
+      command => "/tmp/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base}:${mongo_port} ${my_repl_config['priority']}",
       unless  => "mongo --host ${repl_nodes[0]} --eval \"printjson(rs.status()['members'])\" | grep \"${::hostname}.${::hostname_base}\"",
       require => [
-        File['/root/bin/mongo_helper/add_members.sh'],
+        File['/tmp/add_members.sh'],
         Exec['wait for mongodb']
       ]
     }
@@ -34,24 +34,9 @@ define mongodb::replica_set(
     require     => Service['mongodb'],
   }
 
-  file { "/root/bin":
-    ensure => directory,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-  }
-
-  file { '/root/bin/mongo_helper':
-    ensure  => directory,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    require => File['/root/bin']
-  }
-
-  file { '/root/bin/mongo_helper/add_members.sh':
+  file { '/tmp/add_members.sh':
     ensure  => present,
-    content => template("${module_name}/add_members.sh.erb"),
+    source  => puppet:///modules/mongodb/add_members.sh
     owner   => 'root',
     group   => 'root',
     mode    => '0755',

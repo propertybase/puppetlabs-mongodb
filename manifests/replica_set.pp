@@ -36,7 +36,7 @@ define mongodb::replica_set(
 
   file { '/tmp/add_members.sh':
     ensure  => present,
-    source  => puppet:///modules/mongodb/add_members.sh
+    source  => 'puppet:///modules/mongodb/add_members.sh',
     owner   => 'root',
     group   => 'root',
     mode    => '0755',

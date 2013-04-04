@@ -17,7 +17,7 @@ define mongodb::replica_set(
   }
   else {
     exec { "add member to set":
-      command => "/tmp/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base}:${mongo_port} ${my_repl_config['priority']}",
+      command => "sudo /tmp/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base}:${mongo_port} ${my_repl_config['priority']}",
       unless  => "mongo --host ${repl_nodes[0]} --eval \"printjson(rs.status()['members'])\" | grep \"${::hostname}.${::hostname_base}\"",
       require => [
         File['/tmp/add_members.sh'],

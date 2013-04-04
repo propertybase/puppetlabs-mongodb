@@ -39,7 +39,6 @@ define mongodb::replica_set(
     source  => 'puppet:///modules/mongodb/add_members.sh',
     owner   => 'root',
     group   => 'root',
-    mode    => '0755',
-    require => File['/root/bin/mongo_helper']
+    mode    => '0755'
   }
 }

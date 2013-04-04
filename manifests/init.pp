@@ -62,6 +62,17 @@ class mongodb (
     ensure => installed,
   }
 
+  file { $mongodb::params::upstartfile:
+    ensure    => present,
+    content   => template("${module_name}/mongodb.upstart.erb"),
+    owner     => 'root',
+    group     => 'root',
+    mode      => '0644',
+    notify    => Service['mongodb'],
+    require   => Package['mongodb-10gen'],
+    before    => Service['mongodb'],
+  }
+
   service { 'mongodb':
     name      => $servicename,
     ensure    => running,

@@ -5,7 +5,7 @@ define mongodb::replica_set(
   validate_hash($repl_config)
 
   $my_repl_config = $repl_config['nodes'][$::hostname]
-  $first_node_name = keys($repl_config['nodes'])[0]
+  $repl_nodes = keys($repl_config['nodes'])
 
   if $my_repl_config['_id'] == 0 {
     exec { "initiate replica set":
@@ -15,7 +15,7 @@ define mongodb::replica_set(
   }
   else {
     #exec { "add member to set":
-    #  command => "/root/bin/mongo_helper/add_members.sh ${first_node_name} ${my_repl_config['_id']} ${::hostname}.${::hostname_base} ${my_repl_config['priority']}",
+    #  command => "/root/bin/mongo_helper/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base} ${my_repl_config['priority']}",
     #  onlyif  => ""
     #  require => File['/root/bin/mongo_helper/add_members.sh'],
     #}

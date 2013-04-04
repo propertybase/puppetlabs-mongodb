@@ -16,8 +16,13 @@ class mongodb::params{
       }
       case $::operatingsystem {
         'Debian': { $init = 'sysv' }
-        'Ubuntu': { $init = 'upstart' }
+        'Ubuntu': {
+          $init         = 'upstart',
+          $upstartfile  = '/etc/init/mongodb.conf'
+        }
       }
+      $ulimit_open_files  = 65000
+      $ulimit_processes   = 32000
       $source             = 'mongodb::sources::apt'
       $package            = 'mongodb'
       $service            = 'mongodb'

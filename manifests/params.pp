@@ -17,7 +17,7 @@ class mongodb::params{
       case $::operatingsystem {
         'Debian': { $init = 'sysv' }
         'Ubuntu': {
-          $init         = 'upstart',
+          $init         = 'upstart'
           $upstartfile  = '/etc/init/mongodb.conf'
         }
       }

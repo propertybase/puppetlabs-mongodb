@@ -15,14 +15,14 @@ define mongodb::replica_set(
     }
   }
   else {
-    exec { "add member to set":
-      command => "/root/bin/mongo_helper/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base} ${my_repl_config['priority']}",
-      onlyif  => ""
-      require => [
-        File['/root/bin/mongo_helper/add_members.sh'],
-        Service['mongodb']
-      ]
-    }
+    #exec { "add member to set":
+    #  command => "/root/bin/mongo_helper/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base} ${my_repl_config['priority']}",
+    #  onlyif  => "",
+    #  require => [
+    #    File['/root/bin/mongo_helper/add_members.sh'],
+    #    Service['mongodb']
+    #  ]
+    #}
   }
 
   file { "/root/bin":

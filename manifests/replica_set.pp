@@ -11,7 +11,7 @@ define mongodb::replica_set(
     exec { "initiate replica set":
       command => 'mongo --eval "rs.initiate()"',
       onlyif  => 'test `mongo --eval "rs.conf()" | grep "null"`',
-      require => Service['mongodb']
+      require => Exec['wait for mongodb'],
     }
   }
   else {
@@ -20,9 +20,17 @@ define mongodb::replica_set(
     #  onlyif  => "",
     #  require => [
     #    File['/root/bin/mongo_helper/add_members.sh'],
-    #    Service['mongodb']
+    #    Exec['wait for mongodb']
     #  ]
     #}
+  }
+
+  exec { "wait for mongodb":
+    command     => "mongo --eval 'rs.status()'",
+    tries       => 10,
+    try_sleep   => 2,
+    returns     => 0,
+    require     => Service['mongodb'],
   }
 
   file { "/root/bin":

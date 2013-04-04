@@ -6,6 +6,7 @@ define mongodb::replica_set(
 
   $my_repl_config = $repl_config['nodes'][$::hostname]
   $repl_nodes = keys($repl_config['nodes'])
+  $mongo_port = getparam(Class["mongodb::config"], "port")
 
   if $my_repl_config['_id'] == 0 {
     exec { "initiate replica set":
@@ -15,14 +16,14 @@ define mongodb::replica_set(
     }
   }
   else {
-    #exec { "add member to set":
-    #  command => "/root/bin/mongo_helper/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base} ${my_repl_config['priority']}",
-    #  onlyif  => "",
-    #  require => [
-    #    File['/root/bin/mongo_helper/add_members.sh'],
-    #    Exec['wait for mongodb']
-    #  ]
-    #}
+    exec { "add member to set":
+      command => "/root/bin/mongo_helper/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base}:${mongo_port} ${my_repl_config['priority']}",
+      onlyif  => "",
+      require => [
+        File['/root/bin/mongo_helper/add_members.sh'],
+        Exec['wait for mongodb']
+      ]
+    }
   }
 
   exec { "wait for mongodb":

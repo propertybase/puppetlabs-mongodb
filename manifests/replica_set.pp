@@ -1,6 +1,7 @@
 define mongodb::replica_set(
-  $repl_name = $title,
-  $repl_config = undef
+  $repl_name          = $title,
+  $repl_config        = undef,
+  $cluster_first_node = undef
 ) {
   validate_hash($repl_config)
 
@@ -17,8 +18,8 @@ define mongodb::replica_set(
   }
   else {
     exec { "add member to set":
-      command => "sudo /tmp/add_members.sh ${repl_nodes[0]} ${my_repl_config['_id']} ${::hostname}.${::hostname_base}:${mongo_port} ${my_repl_config['priority']}",
-      unless  => "mongo --host ${repl_nodes[0]} --eval \"printjson(rs.status()['members'])\" | grep \"${::hostname}.${::hostname_base}\"",
+      command => "sudo /tmp/add_members.sh ${cluster_first_node} ${my_repl_config['_id']} ${::hostname}.${::hostname_base}:${mongo_port} ${my_repl_config['priority']}",
+      unless  => "mongo --host ${cluster_first_node} --eval \"printjson(rs.status()['members'])\" | grep \"${::hostname}.${::hostname_base}\"",
       require => [
         File['/tmp/add_members.sh'],
         Exec['wait for mongodb']
